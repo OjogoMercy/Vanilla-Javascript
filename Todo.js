@@ -2,7 +2,7 @@ console.log('Todo-App')
 console.log('Tasks')
 const Tasks = [
     { id: 1, text: 'Buy groceries' ,liked:false,mark:true,pending: true},
-    { id: 2, text: 'Walk the dog',liked:false,mark:false ,pending: true},
+    { id: 2, text: 'Walk the dog',liked:false,mark:false ,pending: false},
     { id: 3, text: 'Read a book',liked:false ,mark:false,pending: true},
 ]
 function addTask (id,text,liked){
@@ -40,10 +40,10 @@ let remove = Tasks.filter((task) => task.id !== 1);
 
 // filter tasks as completed or pending
 
-const toComplete = Tasks.find((tasks) => tasks.id === 4)
-if (toComplete){
-    toComplete.pending = false;
-    console.log(`Tasks marked as Completed`)
-}
+const toComplete = Tasks.find((tasks) => tasks.pending === false)
+console.log('Completed Tasks:', toComplete);
 
-console.log(remove)
+const pending = Tasks.find((tasks)=> tasks.pending === true)
+console.log('Pending Tasks:', pending);
+
+// console.log(remove)
