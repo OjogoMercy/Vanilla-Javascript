@@ -19,6 +19,7 @@ addTask(4,'Take a break', false)
 addTask(5, 'Take a Walk', true)
 
 const toMark = Tasks.find((task) => task.id === 2);
+// use find when you need to get a single element but when going for a category of  items use a filter
 
 // const a = Tasks.map((d, i)=>{
 //     if (d.id === 2){
@@ -37,13 +38,18 @@ console.log('Task marked as done',Tasks[2].text);
 }    
 // to remove a task
 let remove = Tasks.filter((task) => task.id !== 1);
+// console.log(remove)
 
 // filter tasks as completed or pending
 
-const toComplete = Tasks.find((tasks) => tasks.pending === false)
+const toComplete = Tasks.filter((tasks) => tasks.pending === false)
 console.log('Completed Tasks:', toComplete);
 
-const pending = Tasks.find((tasks)=> tasks.pending === true)
+const pending = Tasks.filter((tasks)=> tasks.pending === true)
 console.log('Pending Tasks:', pending);
 
-// console.log(remove)
+// to display all tasks with their status 
+const toDisplay = Tasks.filter((tasks) => tasks.text);
+toDisplay.forEach (task => {
+    console.log(`Tasks":${task.text} --:Pending :${task.pending}`)   
+})
