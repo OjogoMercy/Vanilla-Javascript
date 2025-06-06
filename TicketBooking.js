@@ -7,6 +7,8 @@ const movies = [
     { title: "Spider-Man: No Way Home", availableSeats: 0 },  // Sold out
     { title: "The Lion King", availableSeats: 15 }
 ];
+
+const Bookings [];
 // todisplay the number of available seats and the movie 
 const bookMovies = movies.filter ((movie) => movie.title)
   bookMovies.forEach((movie) =>{
