@@ -8,14 +8,14 @@ const movies = [
     { title: "The Lion King", availableSeats: 15 }
 ];
 
-const Bookings [];
+// const Bookings [];
 // todisplay the number of available seats and the movie 
 const bookMovies = movies.filter ((movie) => movie.title)
   bookMovies.forEach((movie) =>{
     console.log(`Movie:${movie.title} -- Available seats ${movie.availableSeats}`)
   })
 
-//   booking a seat for a movie 
+//   booking a seat for a movie     
 console.log('Booking for a movie')
 const movieName = "The Lion King"
 for (let i = 0; i < movies.length; i++){
