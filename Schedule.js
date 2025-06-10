@@ -6,16 +6,27 @@ const Schedule = [
 ];
 // to add a new appointment 
 function addAppointment(id,name,date,time,appointment){
-    return Schedule.push({
-        id:id,
-        name:name,
-        date:date,
-        time:time,
-        appointment:appointment
+    const conflict = Schedule.find(s => s.time === time && s.date === date )
+    if (conflict){
+        console.log(`An appointment is already scheduled for ${date} at ${time}`)
+    }
+    else {
+        Schedule.push({
+            id:id,
+            name:name,
+            date:date,
+            time:time,
+            appointment:appointment
     })
 }
-addAppointment(4,'karen',"2025-06-11","2:00pm","She just want's to disturb your life for no sane reason at all😒")
+     
+    
+}
+addAppointment(4,'karen',"2025-06-11","2:00 PM","She just want's to disturb your life for no sane reason at all😒")
 console.log(Schedule)
+// to delete an appointment 
+// const remove = Schedule.filter(Schedule => (Schedule.id !== 1))
+// console.log(remove)
 // to search for appointments by date 
 function byDate (date){
     const filterByDate = Schedule.filter (s => s.date === date)
@@ -29,3 +40,4 @@ function byDate (date){
 }
 
 byDate('2025-06-11')
+
