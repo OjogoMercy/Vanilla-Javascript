@@ -1,4 +1,5 @@
 console.log('Inventory System')
+// to display all products 
 const Inventory = [
     {id:1,name:'bags', price:700, quantity:15},
     {id:2,name:'shoes', price:500, quantity:10},
