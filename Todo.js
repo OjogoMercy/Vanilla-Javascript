@@ -19,18 +19,6 @@ addTask(4,'Take a break', false)
 addTask(5, 'Take a Walk', true)
 
 const toMark = Tasks.find((task) => task.id === 2);
-// use find when you need to get a single element but when going for a category of  items use a filter
-
-// const a = Tasks.map((d, i)=>{
-//     if (d.id === 2){
-//         console.log(`Task with id ${d.id} marked as done`)
-//     return  d.mark = false
-        
-//     }
-// })
-// console.log(a)
-
-// to mark  a task as completed
 if (toMark){
     toMark.mark= true;
 console.log('Task marked as done',Tasks[2].text);
