@@ -16,7 +16,7 @@ const addTodo = (text) => {
 const removeTodo = (index) => {
     return {
         type: REMOVE_TODO,
-        payload: text
+        payload: index
     }
 }
 const toggleTodo = (index) => {
@@ -35,18 +35,19 @@ const initialState = {
         {text:'Dont do Favours Classwork', completed: false}
     ]
 }
+console.log(initialState)
 // Reducer
 const todoReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TODO:
             return {
                 ...state,
-                todos:[state.todos,{text:action.payload, completed:false}]
+                todos:[...state.todos,{text:action.payload, completed:false}]
             }
         case REMOVE_TODO:
             return {
                 ...state,
-                todos:state.todos.filter((todo,index) => index !== action.payload)
+                todos:state.todos.filter((_,index) => index !== action.payload)
             }
         case TOGGLE_TODO:
             return {
@@ -60,3 +61,9 @@ const todoReducer = (state = initialState, action) => {
     }
     
 }
+// Create Store
+const store = createStore(todoReducer);
+// Log the initial state
+console.log(store.getState());
+//testite reduuers
+const testaddTodo = {type:ADD_TODO,payload: 'Dont do any assignment today'}
