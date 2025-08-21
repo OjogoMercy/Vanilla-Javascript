@@ -54,7 +54,7 @@ const todoReducer = (state = initialState, action) => {
                 ...state,
                 todos: state.todos.map((todo, index) => {
                     if (index === action.payload) {
-                        return{...todo, comleted:!todo.completed}
+                        return{...todo, completed:!todo.completed}
                     }return todo
                 })
             }
@@ -66,4 +66,11 @@ const store = createStore(todoReducer);
 // Log the initial state
 console.log(store.getState());
 //testite reduuers
-const testaddTodo = {type:ADD_TODO,payload: 'Dont do any assignment today'}
+const testaddTodo = { type: ADD_TODO, payload: 'Dont do any assignment today' }
+const testRemove = { type: REMOVE_TODO, payload: 0 }
+const toggle = {type: TOGGLE_TODO,payload:1}
+// Dispatch actions
+store.dispatch(testaddTodo)
+store.dispatch(testRemove)
+store.dispatch(toggle);
+console.log(store.getState());
