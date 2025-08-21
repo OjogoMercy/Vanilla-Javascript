@@ -3,23 +3,27 @@ const redux = require("redux");
 const createStore = redux.createStore;
 
 // action type
-const BORROW_BOOK = "BORROW_BOOK";
-const ADD_BOOK = "ADD_BOOK";
-
+const ActionTypes = {
+  BORROW_BOOK: "BORROW_BOOK",
+  ADD_BOOK: "ADD_BOOK",
+  ADD_PUFF: "ADD_PUFF",
+  REMOVE_PUFF: "REMOVE_PUFF",
+  ADD_STUDENT: "ADD_STUDENT",
+  REMOVE_STUDENT: "REMOVE_STUDENT",
+  ADD_MULTIPLE: "ADD_MULTIPLE",
+  REMOVE_MULTIPLE: "REMOVE_MULTIPLE",
+  ADD_STUDENTS: "ADD_STUDENTS",
+};
 // action creator
-const borrowBook = (payload) => {
-  return {
-    type: BORROW_BOOK,
-    payload,
-  };
-};
-
-const addBook = (payload) => {
-  return {
-    type: ADD_BOOK,
-    payload,
-  };
-};
+const borrowBook = createAction(ActionTypes.BORROW_BOOK);
+const addBook = createAction(ActionTypes.ADD_BOOK);
+const addPuff = createAction(ActionTypes.ADD_PUFF);
+const removePuff = createAction(ActionTypes.REMOVE_PUFF);
+const addStudent = createAction(ActionTypes.ADD_STUDENT);
+const removeStudent = createAction(ActionTypes.REMOVE_STUDENT);
+const addMultiple = createAction(ActionTypes.ADD_MULTIPLE);
+const removeMultiple = createAction(ActionTypes.REMOVE_MULTIPLE);
+const addStudents = createAction(ActionTypes.ADD_STUDENTS);
 
 // initial state
 const initialState = {
@@ -34,7 +38,7 @@ const reducer = (state = initialState, action) => {
     case BORROW_BOOK:
       return {
         ...state,
-        books: state.books - action.payload,
+        books: Math.max(0, state.books - action.payload)
       };
 
     case ADD_BOOK:
@@ -42,22 +46,75 @@ const reducer = (state = initialState, action) => {
         ...state,
         books: state.books + action.payload,
       };
-
-    default:
+    case ADD_PUFF: 
+      return {
+        ...state,
+        puff: state.puff + action.payload
+      }
+    case REMOVE_PUFF:
+      return {
+        ...state,
+        puff: Math.max(0, state.puff - action.payload)
+      }
+    case ADD_STUDENT:
+      return {
+        ...state,
+        students: [...state.students, action.payload],
+      };
+    case REMOVE_STUDENT:
+      return {
+        ...state,
+        students: state.students.filter(
+          (student) => student.id !== action.payload.id
+        ),
+      };
+    case ADD_MULTIPLE:
+      return {
+        ...state,
+        books: state.books + action.payload.books,
+        puff: state.puff + action.payload.puff,
+        students: [...state.students, ...action.payload.students],
+      };
+    case "REMOVE_MULTIPLE":
+      return {
+        ...state,
+        books: Math.max(0, state.books - action.payload.books),
+        puff: Math.max(0, state.puff - action.payload.puff),
+        students: state.students.filter(
+          (student) => !action.payload.students.some(s => s.id === student.id)
+        ),
+      };
+    case ADD_STUDENTS:
+      return {
+        ...state,
+        students: [...state.students, ...action.payload],
+      };
+      default:
       return state;
   }
 };
 
 // store
-
 const store = createStore(reducer);
-
 console.log("Initial state blo blo blo", store.getState());
-
 store.subscribe(() => {
   console.log("updated store", store.getState());
 });
 
 store.dispatch(borrowBook(5));
-store.dispatch(addBook(20));
-store.dispatch(borrowBook(47));
+store.dispatch(removePuff(5));
+store.dispatch(removeStudent({ id: 1 }));
+store.dispatch(addMultiple({
+  books: 5,
+  puff: 3,
+  students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }]
+}));
+store.dispatch(removeMultiple({
+  books: 2,
+  puff: 1,
+  students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }]
+}))
+store.dispatch(addStudents([
+  { id: 4, firstname: "Jane", lastname: "Doe", dept: "Math" },
+  { id: 5, firstname: "Alice", lastname: "Smith", dept: "Physics" }
+]));
