@@ -15,6 +15,7 @@ const ActionTypes = {
   ADD_STUDENTS: "ADD_STUDENTS",
 };
 // action creator
+const createAction = (type) => (payload) => ({ type, payload });
 const borrowBook = createAction(ActionTypes.BORROW_BOOK);
 const addBook = createAction(ActionTypes.ADD_BOOK);
 const addPuff = createAction(ActionTypes.ADD_PUFF);
@@ -35,86 +36,88 @@ const initialState = {
 // reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case BORROW_BOOK:
+    case ActionTypes.BORROW_BOOK:
       return {
         ...state,
-        books: Math.max(0, state.books - action.payload)
+        books: Math.max(0, state.books - action.payload),
       };
 
-    case ADD_BOOK:
+    case ActionTypes.ADD_BOOK:
       return {
         ...state,
         books: state.books + action.payload,
       };
-    case ADD_PUFF: 
+    case ActionTypes.ADD_PUFF:
       return {
         ...state,
-        puff: state.puff + action.payload
-      }
-    case REMOVE_PUFF:
+        puff: state.puff + action.payload,
+      };
+    case ActionTypes.REMOVE_PUFF:
       return {
         ...state,
-        puff: Math.max(0, state.puff - action.payload)
-      }
-    case ADD_STUDENT:
+        puff: Math.max(0, state.puff - action.payload),
+      };
+    case ActionTypes.ADD_STUDENT:
       return {
         ...state,
         students: [...state.students, action.payload],
       };
-    case REMOVE_STUDENT:
+    case ActionTypes.REMOVE_STUDENT:
       return {
         ...state,
         students: state.students.filter(
           (student) => student.id !== action.payload.id
         ),
       };
-    case ADD_MULTIPLE:
+    case ActionTypes.ADD_MULTIPLE:
       return {
         ...state,
         books: state.books + action.payload.books,
         puff: state.puff + action.payload.puff,
         students: [...state.students, ...action.payload.students],
       };
-    case "REMOVE_MULTIPLE":
+    case ActionTypes.REMOVE_MULTIPLE:
       return {
         ...state,
         books: Math.max(0, state.books - action.payload.books),
         puff: Math.max(0, state.puff - action.payload.puff),
         students: state.students.filter(
-          (student) => !action.payload.students.some(s => s.id === student.id)
+          (student) => !action.payload.students.some((s) => s.id === student.id)
         ),
       };
-    case ADD_STUDENTS:
+    case ActionTypes.ADD_STUDENTS:
       return {
         ...state,
         students: [...state.students, ...action.payload],
       };
-      default:
+    default:
       return state;
   }
 };
 
 // store
 const store = createStore(reducer);
+[
+  borrowBook(5),
+  removePuff(5),
+  removeStudent({ id: 1 }),
+  addMultiple({
+    books: 5,
+    puff: 3,
+    students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }],
+  }),
+  removeMultiple({
+    books: 2,
+    puff: 1,
+    students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }],
+  }),
+  addStudents([
+    { id: 4, firstname: "Jane", lastname: "Doe", dept: "Math" },
+    { id: 5, firstname: "Alice", lastname: "Smith", dept: "Physics" },
+  ]),
+].forEach(store.dispatch);
 console.log("Initial state blo blo blo", store.getState());
 store.subscribe(() => {
   console.log("updated store", store.getState());
 });
 
-store.dispatch(borrowBook(5));
-store.dispatch(removePuff(5));
-store.dispatch(removeStudent({ id: 1 }));
-store.dispatch(addMultiple({
-  books: 5,
-  puff: 3,
-  students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }]
-}));
-store.dispatch(removeMultiple({
-  books: 2,
-  puff: 1,
-  students: [{ id: 3, firstname: "John", lastname: "Doe", dept: "CS" }]
-}))
-store.dispatch(addStudents([
-  { id: 4, firstname: "Jane", lastname: "Doe", dept: "Math" },
-  { id: 5, firstname: "Alice", lastname: "Smith", dept: "Physics" }
-]));
